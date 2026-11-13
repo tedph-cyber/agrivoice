@@ -1,0 +1,3 @@
+crop_slug,language,question,answer,keywords,reviewer,approved_at,status,is_placeholder
+maize,en,[PLACEHOLDER] Example question about this crop?,[PLACEHOLDER] An agronomist supplies the answer.,example placeholder,PLACEHOLDER reviewer,2026-11-13T00:00:00Z,approved,1
+,en,[PLACEHOLDER] Example general question?,[PLACEHOLDER] An agronomist supplies the answer.,example general placeholder,PLACEHOLDER reviewer,2026-11-13T00:00:00Z,approved,1

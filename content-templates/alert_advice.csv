@@ -1,0 +1,2 @@
+rule_key,crop_slug,language,text,reviewer,approved_at,status,is_placeholder
+heavy_rain,maize,en,[PLACEHOLDER] An agronomist supplies advice for this alert and crop.,PLACEHOLDER reviewer,2026-11-13T00:00:00Z,approved,1

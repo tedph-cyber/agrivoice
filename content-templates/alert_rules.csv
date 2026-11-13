@@ -1,0 +1,4 @@
+key,metric,operator,threshold,window_days,severity,enabled,needs_review
+heavy_rain,precip_day_mm,>=,50,3,warning,1,1
+dry_spell,dry_days_consecutive,>=,7,7,watch,1,1
+heat,tmax_c,>=,38,3,watch,1,1

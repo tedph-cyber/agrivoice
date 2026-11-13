@@ -1,0 +1,49 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm ci:*)",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(npx vitest:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx astro:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx prettier:*)",
+      "Bash(npx playwright install:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(npx wrangler dev:*)",
+      "Bash(npx wrangler d1 migrations apply:*)",
+      "Bash(node:*)",
+      "Bash(openssl rand:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git log:*)",
+      "Bash(git tag:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:open-meteo.com)",
+      "WebFetch(domain:geocoding-api.open-meteo.com)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "WebFetch(domain:hono.dev)",
+      "WebFetch(domain:docs.astro.build)",
+      "WebFetch(domain:developers.africastalking.com)"
+    ],
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(npx wrangler deploy:*)",
+      "Bash(npx wrangler publish:*)",
+      "Bash(npx wrangler secret:*)",
+      "Bash(npx wrangler login:*)",
+      "Bash(npx wrangler d1 execute:*)"
+    ]
+  }
+}
