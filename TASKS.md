@@ -66,7 +66,7 @@ Legend: P0 demo-critical, P1 should have, S stretch.
   `npm run db:seed:demo` loads flagged placeholder content from `content-templates/` for the default pilot state and crops, including markets, a few price reports (approved), briefs, Q&A, alert advice, and one reporter code printed to the console. Forecast fixture for demo mode so the demo works offline.
   Verify: after `db:migrate`, `db:seed`, `db:seed:demo`, every public page and every USSD screen shows data, all labelled demo.
 
-- [ ] **T15 End-to-end suite and `demo-ready`.** Deps: T09 to T14.
+- [x] **T15 End-to-end suite and `demo-ready`.** Deps: T09 to T14.
   Playwright tests for all five flows in section 13. Fix anything that fails.
   Verify: `npm run check && npm run e2e` pass from a clean clone with only the documented setup commands. Then `git tag demo-ready`.
 

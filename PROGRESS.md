@@ -15,3 +15,4 @@
 - 2026-11-14 | T12 | /ask | e2e flow 3
 - 2026-11-14 | T13 | Admin UI (dashboard, prices, briefs, Q&A, advice, rules, markets, crops, agents, questions, deletions) | e2e flows 2-4
 - 2026-11-14 | T14 | Demo seed with flagged content and one reporter code | seed.test.ts, e2e
+- 2026-11-14 | T15 | Five e2e flows plus page checks; verified from a clean clone (npm ci, setup:local, check, e2e) | 98 unit/API tests, 15 e2e tests pass
