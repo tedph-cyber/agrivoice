@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { bodyLimit } from 'hono/body-limit';
 import { ZodError } from 'zod';
 import type { AppEnv, Deps } from './env';
 import { ApiError, errorBody } from './lib/util';
@@ -19,6 +20,17 @@ export function createApp(overrides: Partial<Deps> = {}): Hono<AppEnv> {
     await next();
   });
   const api = new Hono<AppEnv>();
+  api.use(
+    '*',
+    bodyLimit({
+      maxSize: 1_100_000,
+      onError: (c) => c.json(errorBody('too_large', 'Request body is too large.'), 413),
+    }),
+  );
+  api.use('*', async (c, next) => {
+    await next();
+    c.res.headers.set('Cache-Control', 'no-store');
+  });
   api.route('/', publicRoutes);
   api.route('/', ussdRoutes);
   api.route('/admin', adminRoutes);

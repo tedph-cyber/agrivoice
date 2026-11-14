@@ -178,3 +178,25 @@ test('P1: admin CSV import with row errors, then stats page', async ({ browser }
   await expect(admin.getByText('Registered farmers:')).toBeVisible();
   await admin.close();
 });
+
+test('P1 security: stored XSS payloads render as text on public and admin pages', async ({ page, request, browser }) => {
+  const payload = '<img src=x onerror="window.__xss=1"><script>window.__xss=2</script>';
+  await request.post('/api/admin/login', { data: { password: 'e2e-admin-password' }, headers: { 'x-requested-with': 'e2e' } });
+  const r = await request.post('/api/admin/markets', { data: { name: payload, state: 'Ogun' }, headers: { 'x-requested-with': 'e2e' } });
+  expect(r.status()).toBe(201);
+  let dialogs = 0;
+  page.on('dialog', async (d) => { dialogs++; await d.dismiss(); });
+  await page.goto('/prices/report/');
+  await expect(page.locator('#market option', { hasText: '<img src=x' })).toHaveCount(1);
+  expect(await page.evaluate(() => (window as unknown as { __xss?: number }).__xss)).toBeUndefined();
+  expect(await page.locator('img[src="x"]').count()).toBe(0);
+  const admin = await browser.newPage();
+  admin.on('dialog', async (d) => { dialogs++; await d.dismiss(); });
+  await adminUiLogin(admin);
+  await admin.getByRole('button', { name: 'Markets' }).click();
+  await expect(admin.locator('td', { hasText: '<img src=x' })).toBeVisible();
+  expect(await admin.evaluate(() => (window as unknown as { __xss?: number }).__xss)).toBeUndefined();
+  expect(await admin.locator('img[src="x"]').count()).toBe(0);
+  expect(dialogs).toBe(0);
+  await admin.close();
+});

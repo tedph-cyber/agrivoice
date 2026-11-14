@@ -33,11 +33,19 @@ adminRoutes.post('/login', async (c) => {
   if ((await peek(c.env.DB, key, LOGIN_WINDOW, now)) >= LOGIN_MAX_FAILS)
     throw new ApiError(429, 'rate_limited', 'Too many failed attempts. Try again later.');
   const { password } = await parseBody(c, z.object({ password: z.string().min(1).max(200) }));
-  if (!c.env.SESSION_SECRET || !(await verifyPassword(password, c.env.ADMIN_PASSWORD_HASH))) {
+  let valid = false;
+  try {
+    const secret = c.env.SESSION_SECRET;
+    valid = !!secret && (await verifyPassword(password, c.env.ADMIN_PASSWORD_HASH));
+  } catch {
+    // e.g. the runtime refuses this many PBKDF2 iterations: say so without leaking anything
+    throw new ApiError(500, 'hash_unsupported', 'The stored password hash cannot be verified here. See DEPLOY.md (admin hash iterations).');
+  }
+  if (!valid) {
     await hit(c.env.DB, key, LOGIN_WINDOW, now);
     throw new ApiError(401, 'invalid_credentials', 'Wrong password.');
   }
-  setCookie(c, COOKIE_NAME, await signSession(c.env.SESSION_SECRET, now), {
+  setCookie(c, COOKIE_NAME, await signSession(c.env.SESSION_SECRET ?? '', now), {
     httpOnly: true,
     secure: true,
     sameSite: 'Strict',

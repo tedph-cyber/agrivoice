@@ -19,3 +19,4 @@
 - 2026-11-14 | T16 | CSV import/export for 7 types, row-level errors, all-or-nothing and skip-invalid, formula-safe export, admin UI | csv.test.ts, e2e import test
 - 2026-11-14 | T17 | /privacy notice, web deletion request, admin handling, npm run purge retention | seed.test.ts purge, e2e deletion test
 - 2026-11-14 | T19 | GET /api/admin/stats and admin Stats page | admin.test.ts stats, e2e
+- 2026-11-14 | T18 | Security pass: no-store, body limit, per-subscriber USSD cap, hash_unsupported handling, tests for headers/SQLi/XSS/token/logs; SECURITY_NOTES.md | security.test.ts, e2e XSS test

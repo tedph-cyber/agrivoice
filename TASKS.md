@@ -78,7 +78,7 @@ Legend: P0 demo-critical, P1 should have, S stretch.
 - [x] **T17 Privacy flows.** Deps: T06, T13.
   `/privacy` page content (plain language, with bracketed placeholders for contact details), web deletion request flow, admin handling, `npm run purge` implementing retention rules, tests.
 
-- [ ] **T18 Security hardening pass.** Deps: T15.
+- [x] **T18 Security hardening pass.** Deps: T15.
   Review against section 12. Add tests for: CSP and headers present, rate limits on all public POSTs, SQL injection attempts return validation errors, admin XSS attempt stored and rendered safely, USSD token compare, no secrets or phone numbers in logs. Write `SECURITY_NOTES.md` listing controls and known gaps.
 
 - [x] **T19 Stats.** Deps: T13.

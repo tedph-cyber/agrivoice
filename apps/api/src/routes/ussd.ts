@@ -5,6 +5,7 @@ import type { AppEnv, Deps, Env } from '../env';
 import { ApiError, languages, parseBody } from '../lib/util';
 import { limit } from '../lib/ratelimit';
 import { loadProfile, makeUssdCtx } from '../lib/ussd-ctx';
+import { hit } from '../lib/ratelimit';
 import { parseAtForm, formatAtReply } from '../adapters/ussd-at';
 
 export const ussdRoutes = new Hono<AppEnv>();
@@ -15,6 +16,9 @@ export async function handleUssd(
   input: { sessionId: string; phone: string; text: string; channel: 'ussd' | 'sim'; languages: string[] },
 ): Promise<{ text: string; end: boolean }> {
   const { profile, hash } = await loadProfile(env, input.phone);
+  // Per-phone ceiling (hashed key) so a leaked callback token cannot be used to hammer one subscriber.
+  if ((await hit(env.DB, `ussd:ph:${hash.slice(0, 24)}`, 3600, deps.now())) > 300)
+    return { text: 'END Too many requests. Please try again later.', end: true };
   const nowMs = deps.now().getTime();
   const row = await env.DB.prepare('SELECT state_json, updated_at FROM ussd_sessions WHERE session_id = ?')
     .bind(input.sessionId)

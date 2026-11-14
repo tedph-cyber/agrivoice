@@ -13,3 +13,4 @@ All items in `NEEDS_FROM_TED.md` were left at their defaults (Ogun, maize/cassav
 - Open-Meteo forecast and geocoding request/response format (network to open-meteo.com is blocked here).
 - Africa's Talking USSD callback format.
 - `wrangler dev` / workerd was not used locally; local runs use the Node server with a SQLite file.
+- PBKDF2 at 600000 iterations (spec) may be refused by Cloudflare Workers WebCrypto (believed limit 100000) or exceed free-plan CPU time. Fallback documented: `npm run admin:hash -- "<password>" --iterations 100000`. See SECURITY_NOTES.md and DEPLOY.md.
