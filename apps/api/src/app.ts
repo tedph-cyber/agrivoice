@@ -7,6 +7,14 @@ import { securityHeaders } from './lib/security';
 import { publicRoutes } from './routes/public';
 import { ussdRoutes } from './routes/ussd';
 import { adminRoutes } from './routes/admin';
+import { telegramRoutes } from './routes/telegram';
+
+export function appDeps(overrides: Partial<Deps> = {}): Deps {
+  return {
+    fetch: overrides.fetch ?? ((...a) => fetch(...a)),
+    now: overrides.now ?? (() => new Date()),
+  };
+}
 
 export function createApp(overrides: Partial<Deps> = {}): Hono<AppEnv> {
   const deps: Deps = {
@@ -33,6 +41,7 @@ export function createApp(overrides: Partial<Deps> = {}): Hono<AppEnv> {
   });
   api.route('/', publicRoutes);
   api.route('/', ussdRoutes);
+  api.route('/', telegramRoutes);
   api.route('/admin', adminRoutes);
   api.all('*', (c) => c.json(errorBody('not_found', 'Unknown endpoint'), 404));
   app.route('/api', api);

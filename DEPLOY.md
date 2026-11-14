@@ -99,6 +99,26 @@ A live short code needs a licence and funding and is out of scope for the challe
 npx wrangler d1 execute agrivoice --remote --command "DELETE FROM ussd_sessions WHERE updated_at < strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day'); DELETE FROM rate_limits WHERE window_start < strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day'); UPDATE questions SET contact = NULL WHERE contact IS NOT NULL AND created_at < strftime('%Y-%m-%dT%H:%M:%fZ','now','-30 day');"
 ```
 
+## Optional: Telegram alerts (stretch, off until the token is set)
+
+1. In Telegram, talk to BotFather, create a bot, copy the token.
+2. `npx wrangler secret put TELEGRAM_BOT_TOKEN` (paste the token).
+3. Compute the webhook secret, then register the webhook (the token stays in your shell, not in the repo):
+
+   ```bash
+   export TELEGRAM_BOT_TOKEN="<token>"
+   SECRET=$(npm run -s telegram:secret)
+   curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setWebhook" \
+     --data-urlencode "url=https://<worker-host>/api/telegram/webhook" \
+     --data-urlencode "secret_token=${SECRET}"
+   ```
+
+4. Message the bot `/subscribe Ogun, Ifo, maize`. The daily cron sends each alert once per place, crop and date; unconfirmed thresholds are labelled; advice appears only when approved.
+
+## Optional: Africa's Talking SMS (stretch, off by default)
+
+The SMS notifier exists behind the same interface but no screen subscribes anyone to SMS in this version. To enable the adapter later set `AT_USERNAME` (use `sandbox` for the sandbox) and `AT_API_KEY` with `wrangler secret put`.
+
 ## Smoke tests after deploy
 
 - [ ] `https://<worker-host>/api/health` returns `{"ok":true}`.

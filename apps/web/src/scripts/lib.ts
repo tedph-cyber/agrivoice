@@ -29,6 +29,7 @@ export async function api<T = unknown>(path: string, init: { method?: string; bo
     if (init.body !== undefined) headers['content-type'] = 'application/json';
     if (init.method && init.method !== 'GET') headers['x-requested-with'] = 'agrivoice-web';
     const res = await fetch(path, { method: init.method ?? 'GET', headers, body: init.body === undefined ? undefined : JSON.stringify(init.body), signal: ctl.signal, credentials: 'same-origin' });
+    if (res.headers.get('x-av-cached')) showCachedBanner();
     let data: unknown = null;
     try { data = await res.json(); } catch { /* not json */ }
     if (!res.ok) {
@@ -42,6 +43,17 @@ export async function api<T = unknown>(path: string, init: { method?: string; bo
   } finally {
     clearTimeout(timer);
   }
+}
+
+function showCachedBanner(): void {
+  if (document.getElementById('cached-banner')) return;
+  const b = document.createElement('p');
+  b.id = 'cached-banner';
+  b.className = 'msg';
+  b.style.cssText = 'background:#fff3e0;border:1px solid #8a4b00;color:#5a3000';
+  b.setAttribute('role', 'status');
+  b.textContent = 'You are offline or the connection is slow. Showing saved data from your last visit.';
+  document.querySelector('main .wrap')?.prepend(b);
 }
 
 type Child = string | Node | null | undefined | false;

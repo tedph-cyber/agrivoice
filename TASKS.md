@@ -92,10 +92,10 @@ Legend: P0 demo-critical, P1 should have, S stretch.
 
 ## Stretch (only after P0 and P1 are done)
 
-- [ ] **T22 Telegram alerts.** Notifier adapter for the free Telegram Bot API, subscription by chat, a scheduled Worker (cron trigger) that evaluates alerts per subscribed location and posts them with deduplication. Flagged off unless `TELEGRAM_BOT_TOKEN` is set. Tests with mocks.
-- [ ] **T23 Africa's Talking SMS adapter.** Implements the notifier interface; flagged off by default; no real sends in tests.
-- [ ] **T24 Offline cache.** Service worker caching `/brief` and `/prices` data for slow connections.
-- [ ] **T25 Browser text-to-speech.** Optional "read aloud" button on the brief using the browser's speech synthesis where it supports the language; hidden otherwise.
+- [x] **T22 Telegram alerts.** Notifier adapter for the free Telegram Bot API, subscription by chat, a scheduled Worker (cron trigger) that evaluates alerts per subscribed location and posts them with deduplication. Flagged off unless `TELEGRAM_BOT_TOKEN` is set. Tests with mocks.
+- [x] **T23 Africa's Talking SMS adapter.** Implements the notifier interface; flagged off by default; no real sends in tests.
+- [x] **T24 Offline cache.** Service worker caching `/brief` and `/prices` data for slow connections.
+- [x] **T25 Browser text-to-speech.** Optional "read aloud" button on the brief using the browser's speech synthesis where it supports the language; hidden otherwise.
 
 ## Close-out
 

@@ -22,3 +22,7 @@
 - 2026-11-14 | T18 | Security pass: no-store, body limit, per-subscriber USSD cap, hash_unsupported handling, tests for headers/SQLi/XSS/token/logs; SECURITY_NOTES.md | security.test.ts, e2e XSS test
 - 2026-11-14 | T20 | README, USER_GUIDE, DEPLOY, ARCHITECTURE (Mermaid); Worker cron purge; Worker bundle test | npm run check green
 - 2026-11-14 | T21 | axe WCAG A/AA on every page and admin tabs, keyboard test, CLS < 0.1 on /brief; fixed Restart button contrast and layout reserve | e2e a11y.spec.ts
+- 2026-11-14 | T22 | Telegram notifier, webhook (secret header, off without token), /subscribe /stop, daily cron dispatch with de-duplication (migration 0002) | notify.test.ts
+- 2026-11-14 | T23 | Africa's Talking SMS notifier behind the notifier interface, flagged off | notify.test.ts (mocked fetch)
+- 2026-11-14 | T24 | Service worker for pages, assets and public GET endpoints with saved-data banner; admin/USSD never cached | e2e stretch.spec.ts offline test
+- 2026-11-14 | T25 | Read aloud button via browser speech synthesis, hidden without a matching voice | e2e stretch.spec.ts

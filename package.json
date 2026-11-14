@@ -21,7 +21,8 @@
     "db:seed:demo": "tsx scripts/db.ts seed-demo",
     "admin:hash": "tsx scripts/admin-hash.ts",
     "purge": "tsx scripts/db.ts purge",
-    "db:seed:locations": "tsx scripts/db.ts seed-locations"
+    "db:seed:locations": "tsx scripts/db.ts seed-locations",
+    "telegram:secret": "tsx scripts/telegram-secret.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

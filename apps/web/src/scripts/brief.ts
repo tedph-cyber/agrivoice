@@ -39,6 +39,27 @@ async function stateLocation(): Promise<number> {
   return r.states.find((s) => s.state === state.value)!.locationId;
 }
 
+/** Browser text-to-speech (stretch T25): shown only when the browser has a voice for the language. */
+function addReadAloud(box: HTMLElement, v: Brief, language: string) {
+  if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') return;
+  const btn = h('button', { type: 'button', class: 'secondary hidden', id: 'read-aloud' }, 'Read aloud');
+  const decide = () => {
+    const ok = window.speechSynthesis.getVoices().some((x) => x.lang.toLowerCase().startsWith(language.toLowerCase()));
+    btn.classList.toggle('hidden', !ok);
+  };
+  decide();
+  window.speechSynthesis.addEventListener?.('voiceschanged', decide);
+  btn.addEventListener('click', () => {
+    if (window.speechSynthesis.speaking) { window.speechSynthesis.cancel(); btn.textContent = 'Read aloud'; return; }
+    const u = new SpeechSynthesisUtterance(`${v.title}. ${v.body}`);
+    u.lang = language === 'en' ? 'en-NG' : language;
+    u.onend = () => { btn.textContent = 'Read aloud'; };
+    btn.textContent = 'Stop reading';
+    window.speechSynthesis.speak(u);
+  });
+  box.append(h('p', {}, btn));
+}
+
 function section(title: string, ...kids: (Node | string)[]) { return h('section', {}, h('h2', {}, title), ...kids); }
 
 async function show() {
@@ -89,6 +110,7 @@ async function show() {
     if (v.isPlaceholder) head.append(badge());
     b.append(head, h('p', { class: 'muted' }, `Week of ${fmtDate(v.weekStart)}. Reviewed by ${v.reviewer}.`));
     for (const para of v.body.split(/\n{2,}/)) b.append(h('p', {}, para));
+    addReadAloud(b, v, L);
     if (v.audioUrl) {
       const audio = h('audio', { controls: true, preload: 'none', src: v.audioUrl });
       b.append(h('p', {}, h('strong', {}, 'Voice note')), audio);
