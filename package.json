@@ -1,0 +1,45 @@
+{
+  "name": "agrivoice",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "setup:local": "tsx scripts/setup-local.ts",
+    "dev": "tsx scripts/dev.ts",
+    "build": "npm run build -w apps/web",
+    "lint": "eslint .",
+    "typecheck": "tsc -b --noEmit",
+    "test": "vitest run",
+    "check": "npm run lint && npm run typecheck && npm run test",
+    "e2e": "node scripts/e2e.mjs",
+    "db:migrate": "tsx scripts/db.ts migrate",
+    "db:seed": "tsx scripts/db.ts seed",
+    "db:seed:demo": "tsx scripts/db.ts seed-demo",
+    "admin:hash": "tsx scripts/admin-hash.ts",
+    "purge": "tsx scripts/db.ts purge",
+    "db:seed:locations": "tsx scripts/db.ts seed-locations"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.0.0",
+    "@eslint/js": "^9.0.0",
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^22.0.0",
+    "astro": "^5.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^3.0.0",
+    "wrangler": "^4.0.0"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.19",
+    "hono": "^4.6.0",
+    "zod": "^3.23.0"
+  }
+}

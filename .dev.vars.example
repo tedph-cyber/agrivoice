@@ -1,0 +1,12 @@
+# Copy to .dev.vars (or run `npm run setup:local`, which fills random values). Never commit .dev.vars.
+ADMIN_PASSWORD_HASH=   # npm run admin:hash -- "<password>"
+SESSION_SECRET=        # openssl rand -hex 32
+PHONE_HASH_SECRET=     # openssl rand -hex 32
+REPORTER_PEPPER=       # openssl rand -hex 32
+USSD_PATH_TOKEN=       # openssl rand -hex 24
+DEMO_MODE=1            # 1 = offline demo forecast fixture when Open-Meteo is unreachable
+ENABLED_LANGUAGES=en   # comma list; add pcm, ha, yo or ig only when translated strings and content exist
+# Optional, stretch features (flagged off when unset):
+# TELEGRAM_BOT_TOKEN=
+# AT_USERNAME=
+# AT_API_KEY=

@@ -10,31 +10,31 @@ Legend: P0 demo-critical, P1 should have, S stretch.
   Create the npm-workspaces monorepo from `BUILD_SPEC.md` section 4: `apps/api` (Hono, Workers, D1), `apps/web` (Astro, static output), `packages/core`. Add TypeScript strict, ESLint, Prettier, Vitest, Playwright, `wrangler.toml` with a D1 binding named `DB` and static assets from `apps/web/dist`, `.dev.vars.example`, and every command in the CLAUDE.md table (`setup:local` generates random local secrets).
   Verify: `npm run setup:local && npm run check` passes; `npm run dev` serves a placeholder home page and `GET /api/health` returns `{ok:true}`.
 
-- [ ] **T01 Schema, migrations, base seed.** Deps: T00.
+- [x] **T01 Schema, migrations, base seed.** Deps: T00.
   Migration `0001_init.sql` exactly as in section 5. `npm run db:migrate` applies it locally. `npm run db:seed` loads: all 36 states plus FCT with state-capital coordinates (use the Open-Meteo geocoding API at seed time with a committed fallback JSON so seeding works offline), crops from `content-templates/crops.csv`, and the three default alert rules with `needs_review = 1`. LGA seeding script `scripts/seed-locations` takes a state name from `NEEDS_FROM_TED.md` (default Ogun) and geocodes its LGAs with fallback to the state point.
   Verify: tests assert row counts, uniqueness constraints, and that re-running the seed is idempotent.
 
-- [ ] **T02 Core utilities.** Deps: T00.
+- [x] **T02 Core utilities.** Deps: T00.
   In `packages/core`: i18n loader with fallback chain (language, then `en`) and `en.json` containing every string needed by USSD, alerts and the website (use keys; no hard-coded strings elsewhere); GSM 7-bit validator; text truncation at word boundary with ellipsis; Q&A scorer (section 9); phone hashing (HMAC-SHA-256 via WebCrypto); constant-time compare; masking helper for logs.
   Verify: unit tests for each, including boundary cases.
 
-- [ ] **T03 USSD engine.** Deps: T02.
+- [x] **T03 USSD engine.** Deps: T02.
   Implement `step()` and the screens in section 7 as a pure state machine with a data-access interface. Paging, back, home, invalid input, first-contact flow, consent branches, settings and delete flow.
   Verify: exhaustive unit tests with fake data; every rendered screen in every available language is at most 182 characters including prefix and GSM 7-bit only; a property-style test drives random input sequences and asserts the engine never throws and always returns a valid screen.
 
-- [ ] **T04 Weather and alerts.** Deps: T01, T02.
+- [x] **T04 Weather and alerts.** Deps: T01, T02.
   Open-Meteo adapter with 3-hour D1 cache, stale fallback and demo fixture (`DEMO_MODE=1`). Alert rule evaluation in `packages/core`; message templates through i18n; advice lookup requiring approved `alert_advice`.
   Verify: tests with mocked HTTP for success, failure with stale cache, failure without cache; boundary tests for each metric at threshold minus 1, equal, and plus 1.
 
-- [ ] **T05 Public API.** Deps: T01, T02, T04.
+- [x] **T05 Public API.** Deps: T01, T02, T04.
   Implement the public endpoints in section 6 except USSD: places, crops, forecast, alerts, brief, prices, markets, prices/report, qa/search, questions, privacy/delete-request, stats/public. Rate limiting helper using `rate_limits`. Security headers middleware.
   Verify: API tests for each endpoint; unapproved content never appears; price report becomes visible only after approval (use a test helper for approval until T07 lands); rate limit returns 429.
 
-- [ ] **T06 USSD endpoints and farmers.** Deps: T03, T05.
+- [x] **T06 USSD endpoints and farmers.** Deps: T03, T05.
   `POST /api/ussd/at/:token` (Africa's Talking adapter, constant-time token check) and `POST /api/ussd/sim`. Session storage, farmer and consent records, deletion, `events` rows.
   Verify: API tests replaying full sessions as Africa's Talking would send them (cumulative `text`); wrong token returns 404; deletion removes the farmer.
 
-- [ ] **T07 Admin auth and admin API.** Deps: T05.
+- [x] **T07 Admin auth and admin API.** Deps: T05.
   Login, logout, session cookie, CSRF header check, login rate limit. CRUD endpoints for briefs, qa, alert-advice, alert-rules, markets, crops, reporters (code shown once, hash stored); price moderation; questions queue; deletion requests; audit log.
   Verify: API tests for auth required on every admin route, wrong password, expired session, CSRF header missing, audit rows written, reporter code works once created.
 

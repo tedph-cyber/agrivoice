@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": ["packages/*/src", "packages/*/test", "apps/api/src", "apps/api/test", "scripts", "e2e", "vitest.config.ts", "playwright.config.ts"],
+  "compilerOptions": { "types": ["node", "@cloudflare/workers-types"] }
+}
