@@ -50,3 +50,5 @@ th { background: var(--card); }
 .phone input { max-width: 100%; margin-top: .6rem; }
 .phone label { color: #fff; font-weight: 400; font-size: .85rem; }
 .skip { position: absolute; left: -9999px; } .skip:focus { left: .5rem; top: .5rem; background: #fff; padding: .5rem; z-index: 5; }
+.phone .keys button.secondary { background: #fff; color: var(--green-d); border: 1px solid #fff; }
+.reserve { min-height: 80vh; }

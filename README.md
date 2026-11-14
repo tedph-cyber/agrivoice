@@ -1,14 +1,56 @@
 # AgriVoice
 
-Farm brief, weather alerts, market prices and answers for Nigerian smallholder farmers, by USSD and a light website. See `BUILD_SPEC.md`.
+Weekly farm brief, weather alerts, market prices and answers to common questions for Nigerian smallholder farmers, through a USSD menu (basic phones, no data) and a light website. Built for the USPF Changemaker Challenge 2026 (Agriculture). Free tiers only; no AI-generated advice.
 
-## Quick start
+- Spec: `BUILD_SPEC.md`. Operating manual for the coding agent: `CLAUDE.md`. Tasks and progress: `TASKS.md`, `PROGRESS.md`. Hand-over: `HANDOVER.md`.
+- Docs: `USER_GUIDE.md`, `DEPLOY.md`, `ARCHITECTURE.md`, `SECURITY_NOTES.md`.
+
+## Quick start (local)
+
+Needs Node 22 or newer.
 
 ```bash
 npm ci
-npm run setup:local      # writes .dev.vars with random local secrets; prints the local admin password once
-npm run db:migrate && npm run db:seed && npm run db:seed:demo
-npm run dev              # builds the site and serves http://localhost:8787
+npm run setup:local        # writes .dev.vars with random local secrets; prints the local admin password ONCE
+npm run db:migrate
+npm run db:seed            # 37 states, crops, 3 default alert rules (needs_review)
+npm run db:seed:demo       # flagged "Demo data": briefs, Q&A, markets, prices, advice; prints one price-agent code
+npm run dev                # builds the site and serves http://localhost:8787
 ```
 
-(Full README is completed in task T20.)
+Then open `/demo` (phone simulator), `/brief`, `/prices`, `/ask`, `/admin`.
+
+The local database is a SQLite file at `.local/dev.sqlite` (see `DECISIONS.md`). Weather needs internet; with `DEMO_MODE=1` (set by `setup:local`) an offline demo forecast is used when Open-Meteo cannot be reached.
+
+## Commands
+
+| Command | Does |
+| --- | --- |
+| `npm run setup:local` | Generates `.dev.vars` with random local secrets (`--force` to regenerate) |
+| `npm run dev` | Builds the web app and runs API and site locally on port 8787 (`PORT` to change) |
+| `npm run check` | Lint, typecheck, unit and API tests |
+| `npm run e2e` | Builds the site and runs the Playwright end-to-end and accessibility tests on an isolated database |
+| `npm run db:migrate` | Applies `migrations/*.sql` to the local database |
+| `npm run db:seed` | Base data only. `-- --sql` prints SQL for Cloudflare D1 instead |
+| `npm run db:seed:locations -- Ogun` | Geocodes and stores the LGAs of a state (`-- --offline` uses the state point; `-- --sql` prints SQL) |
+| `npm run db:seed:demo` | Adds flagged demo content |
+| `npm run admin:hash -- "<password>"` | Prints a value for `ADMIN_PASSWORD_HASH` (`--iterations N` to lower the cost) |
+| `npm run purge` | Applies retention rules (sessions and rate limits 1 day, call-back numbers 30 days) |
+
+`npx playwright install chromium` is needed once on a new machine before `npm run e2e`.
+
+## Structure
+
+```
+apps/api            Hono API (Cloudflare Worker), adapters, seeds, local Node server
+apps/web            Astro static site and small vanilla scripts
+packages/core       Pure logic: USSD engine, alert rules, i18n, scoring, hashing, CSV
+migrations          D1 SQL migrations
+content-templates   CSV templates for content (provided; import in Admin or seed)
+scripts             setup, database tasks, e2e server
+e2e                 Playwright tests
+```
+
+## Content rule
+
+No advice reaches a farmer without a reviewer name and approval date. Placeholder content is flagged `is_placeholder = 1` and shown as "Demo data" on every interface (`DEMO:` on USSD). The admin dashboard counts what is left.

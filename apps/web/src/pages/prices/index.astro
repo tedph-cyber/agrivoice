@@ -9,7 +9,7 @@ import Base from '../../layouts/Base.astro';
     <div><label for="state">State</label><select id="state"></select></div>
   </form>
   <p id="err" class="msg error hidden" role="alert"></p>
-  <div id="out" aria-live="polite"></div>
+  <div id="out" class="reserve" aria-live="polite"></div>
   <p><a href="/prices/report/">Are you a price agent? Send a price.</a></p>
 </Base>
 <script>import '../../scripts/prices.ts';</script>

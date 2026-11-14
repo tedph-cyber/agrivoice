@@ -20,3 +20,5 @@
 - 2026-11-14 | T17 | /privacy notice, web deletion request, admin handling, npm run purge retention | seed.test.ts purge, e2e deletion test
 - 2026-11-14 | T19 | GET /api/admin/stats and admin Stats page | admin.test.ts stats, e2e
 - 2026-11-14 | T18 | Security pass: no-store, body limit, per-subscriber USSD cap, hash_unsupported handling, tests for headers/SQLi/XSS/token/logs; SECURITY_NOTES.md | security.test.ts, e2e XSS test
+- 2026-11-14 | T20 | README, USER_GUIDE, DEPLOY, ARCHITECTURE (Mermaid); Worker cron purge; Worker bundle test | npm run check green
+- 2026-11-14 | T21 | axe WCAG A/AA on every page and admin tabs, keyboard test, CLS < 0.1 on /brief; fixed Restart button contrast and layout reserve | e2e a11y.spec.ts

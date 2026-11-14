@@ -84,10 +84,10 @@ Legend: P0 demo-critical, P1 should have, S stretch.
 - [x] **T19 Stats.** Deps: T13.
   `GET /api/admin/stats` and an admin page: registrations, sessions by channel and day, prices reported and approved, questions answered, placeholder counter. Public aggregate endpoint already exists.
 
-- [ ] **T20 Documentation.** Deps: T15.
+- [x] **T20 Documentation.** Deps: T15.
   `README.md` (setup, commands, structure), `USER_GUIDE.md` (farmer USSD, smartphone user, price agent, admin), `DEPLOY.md` (section 14, exact commands, smoke tests, rollback), `ARCHITECTURE.md` with Mermaid diagrams (system, USSD flow, price approval flow, data model).
 
-- [ ] **T21 Performance and accessibility pass.** Deps: T15.
+- [x] **T21 Performance and accessibility pass.** Deps: T15.
   Check page weight, no layout shift, keyboard navigation, labels, contrast. Fix findings. Add an automated accessibility check to the E2E suite if low effort.
 
 ## Stretch (only after P0 and P1 are done)

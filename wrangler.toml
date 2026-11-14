@@ -19,3 +19,7 @@ migrations_dir = "migrations"
 DEMO_MODE = "0"
 ENABLED_LANGUAGES = "en"
 FORECAST_TTL_HOURS = "3"
+
+[triggers]
+# Daily retention job: purges sessions, rate limits and call-back numbers older than 30 days.
+crons = ["17 3 * * *"]
