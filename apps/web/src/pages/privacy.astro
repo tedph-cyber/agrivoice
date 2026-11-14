@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Privacy">
+  <h1>Privacy notice</h1>
+  <p class="msg" style="background:#fff3e0;border:1px solid #8a4b00">Draft. A qualified person must review this notice before real farmers use the service.</p>
+  <h2>What we keep</h2>
+  <ul>
+    <li><strong>Your phone number is never stored as a number</strong> unless you ask for a call-back and say yes. For a saved profile we keep only a scrambled code (a keyed hash) that cannot be turned back into your number, plus your language, place and crop.</li>
+    <li><strong>Call-back requests:</strong> if you say yes to a call-back, your number is kept for up to 30 days and then removed. If you say no, no number is kept.</li>
+    <li><strong>Questions you type on this website</strong> are kept so an agent can answer them. A number you add is kept only if you tick the consent box, and removed after 30 days.</li>
+    <li><strong>Usage counts</strong> (for example how many sessions per day) contain no personal data.</li>
+    <li><strong>Price agents:</strong> reports are linked to an agent code, not to a phone number.</li>
+  </ul>
+  <h2>Why</h2>
+  <p>To show you the farm brief, weather and prices for your place and crop, and to let an agent answer your questions.</p>
+  <h2>How to delete your data</h2>
+  <ul>
+    <li><strong>On a phone:</strong> dial the service, choose <em>My settings</em>, then <em>Delete my data</em> and confirm. Your saved profile and consent are removed at once. Call-back requests are removed within 30 days.</li>
+    <li><strong>On this website:</strong> use the form below.</li>
+  </ul>
+  <form id="del" novalidate>
+    <label for="note">What should we delete? (optional)</label><textarea id="note" maxlength="500"></textarea>
+    <label for="contact">How can we confirm with you? (optional, phone or email)</label><input id="contact" maxlength="100" autocomplete="off" />
+    <p><button type="submit">Send deletion request</button></p>
+  </form>
+  <p id="out" class="msg hidden" role="status"></p>
+  <h2>Contact</h2>
+  <p>[Team name], [contact email], [contact phone]</p>
+  <h2>Weather</h2>
+  <p>Weather data by Open-Meteo.com. We send only the coordinates of your LGA or state to them, never your phone number.</p>
+</Base>
+<script>import '../scripts/privacy.ts';</script>

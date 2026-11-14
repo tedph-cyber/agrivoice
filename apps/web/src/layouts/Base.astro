@@ -1,0 +1,38 @@
+---
+import '../styles/global.css';
+interface Props { title: string; description?: string; script?: string }
+const { title, description = 'Weekly farm brief, weather alerts, market prices and answers for farmers.' } = Astro.props;
+const langs = (import.meta.env.PUBLIC_LANGUAGES ?? 'en').split(',');
+const names: Record<string, string> = { en: 'English', pcm: 'Pidgin', ha: 'Hausa', yo: 'Yoruba', ig: 'Igbo' };
+const nav = [['/', 'Home'], ['/demo/', 'Try it'], ['/brief/', 'Farm brief'], ['/prices/', 'Prices'], ['/ask/', 'Ask'], ['/privacy/', 'Privacy']];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#1b5e20" />
+    <link rel="icon" href="data:," />
+    <title>{title} | AgriVoice</title>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site">
+      <div class="wrap">
+        <a class="brand" href="/">AgriVoice</a>
+        <nav aria-label="Main"><ul>{nav.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul></nav>
+        <div class="lang"><label class="sr" for="lang-select">Language</label>
+          <select id="lang-select" aria-label="Language">{langs.map((l) => <option value={l}>{names[l] ?? l}</option>)}</select>
+        </div>
+      </div>
+    </header>
+    <main id="main"><div class="wrap"><slot /></div></main>
+    <footer class="site"><div class="wrap">
+      <p>Weather data by <a href="https://open-meteo.com/">Open-Meteo.com</a>. Content marked <span class="badge">Demo data</span> is placeholder content, not real advice or prices.</p>
+      <p>No AI-generated advice: every brief and answer is written and approved by people.</p>
+    </div></footer>
+    <script>import '../scripts/lang.ts';</script>
+    <slot name="scripts" />
+  </body>
+</html>

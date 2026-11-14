@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Ask a question">
+  <h1>Ask a question</h1>
+  <form id="search" role="search">
+    <label for="q">Your question</label>
+    <input id="q" maxlength="200" autocomplete="off" required />
+    <label for="crop">Crop (optional)</label><select id="crop"></select>
+    <p><button type="submit">Search answers</button></p>
+  </form>
+  <p id="err" class="msg error hidden" role="alert"></p>
+  <div id="results" aria-live="polite"></div>
+  <section id="send" class="hidden card">
+    <h2>Send your question to an agent</h2>
+    <p>We could not find a good answer. An agent can look at your question.</p>
+    <form id="qform">
+      <label for="qtext">Your question</label><textarea id="qtext" maxlength="500" required></textarea>
+      <label for="contact">Phone number for a call-back (optional)</label><input id="contact" inputmode="tel" autocomplete="off" />
+      <p><label><input type="checkbox" id="consent" /> I agree that you keep my number for 30 days so an agent can call me back. Without this box ticked, no number is kept.</label></p>
+      <p><button type="submit">Send question</button></p>
+    </form>
+    <p id="sent" class="msg hidden" role="status"></p>
+  </section>
+</Base>
+<script>import '../scripts/ask.ts';</script>

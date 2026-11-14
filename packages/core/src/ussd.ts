@@ -138,6 +138,11 @@ function nav(lang: string, opts: { back?: boolean } = {}): string {
   return opts.back === false ? '' : t(lang, 'ussd.back');
 }
 
+/** Hard clip for names, with a trailing dot when cut. */
+function clip(text: string, max: number): string {
+  return text.length <= max ? text : text.slice(0, max - 1).trimEnd() + '.';
+}
+
 function lines(...parts: (string | null | undefined | false)[]): string {
   return parts.filter((p): p is string => typeof p === 'string' && p.length > 0).join('\n');
 }
@@ -254,7 +259,7 @@ async function render(st: SessionState, ctx: UssdCtx, flash?: string): Promise<R
       const demo = prices.some((p) => p.isPlaceholder) ? t(L, 'ussd.demo_prefix') : '';
       const rows = prices.map((p) =>
         t(L, 'ussd.prices_line', {
-          market: truncate(p.market, 14),
+          market: clip(p.market, 15),
           price: p.priceNgn,
           unit: truncate(p.unit, 8),
           age: p.ageDays <= 0 ? t(L, 'ussd.age_today') : t(L, 'ussd.age_days', { n: p.ageDays }),

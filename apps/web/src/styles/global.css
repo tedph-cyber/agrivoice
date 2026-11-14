@@ -1,0 +1,52 @@
+:root { --fg:#1a1a1a; --muted:#4a4a4a; --bg:#fff; --card:#f4f7f3; --line:#c9d4c6; --green:#1b5e20; --green-d:#0f3d13; --warn:#8a4b00; --warn-bg:#fff3e0; --err:#a30000; --demo:#5b2c83; --demo-bg:#f1e8f8; }
+* { box-sizing: border-box; }
+html { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; color: var(--fg); background: var(--bg); }
+body { margin: 0; }
+a { color: var(--green-d); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid #0b57d0; outline-offset: 2px; }
+.wrap { max-width: 48rem; margin: 0 auto; padding: 0 1rem; }
+header.site { background: var(--green); color: #fff; }
+header.site a { color: #fff; }
+header.site .wrap { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; padding-top: .6rem; padding-bottom: .6rem; }
+header.site .brand { font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: .25rem .9rem; margin: 0; padding: 0; }
+nav a { padding: .25rem 0; display: inline-block; }
+.lang { margin-left: auto; font-size: .9rem; }
+.lang select { font: inherit; }
+main { padding: 1rem 0 2rem; min-height: 60vh; }
+h1 { font-size: 1.6rem; margin: .5rem 0 .75rem; } h2 { font-size: 1.25rem; margin: 1.5rem 0 .5rem; } h3 { font-size: 1.05rem; }
+footer.site { border-top: 1px solid var(--line); padding: 1rem 0; font-size: .9rem; color: var(--muted); }
+label { display: block; font-weight: 600; margin: .75rem 0 .2rem; }
+input, select, textarea { font: inherit; padding: .5rem; border: 1px solid #6b6b6b; border-radius: .35rem; width: 100%; max-width: 28rem; background: #fff; color: var(--fg); }
+input[type=checkbox] { width: auto; }
+textarea { min-height: 6rem; max-width: 100%; }
+button, .btn { font: inherit; padding: .55rem 1rem; border: 0; border-radius: .35rem; background: var(--green); color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+button.secondary { background: #fff; color: var(--green-d); border: 1px solid var(--green); }
+button.danger { background: var(--err); }
+button:disabled { opacity: .55; cursor: not-allowed; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: .5rem; padding: .75rem 1rem; margin: .75rem 0; }
+.badge { display: inline-block; font-size: .75rem; font-weight: 700; padding: .05rem .45rem; border-radius: 1rem; background: var(--demo-bg); color: var(--demo); border: 1px solid var(--demo); vertical-align: middle; margin-left: .35rem; }
+.badge.warn { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+.alert { border-left: 5px solid var(--warn); background: var(--warn-bg); padding: .5rem .75rem; margin: .5rem 0; border-radius: .25rem; }
+.alert.warning { border-left-color: var(--err); }
+.msg { padding: .5rem .75rem; border-radius: .25rem; margin: .75rem 0; }
+.msg.error { background: #fde8e8; color: var(--err); border: 1px solid var(--err); }
+.msg.ok { background: #e6f4ea; color: var(--green-d); border: 1px solid var(--green); }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border-bottom: 1px solid var(--line); padding: .35rem .4rem; text-align: left; vertical-align: top; }
+th { background: var(--card); }
+.tablewrap { overflow-x: auto; }
+.muted { color: var(--muted); font-size: .9rem; }
+.row { display: flex; flex-wrap: wrap; gap: .75rem; }
+.row > div { flex: 1 1 10rem; }
+.hidden { display: none !important; }
+.sr { position: absolute; left: -9999px; }
+/* phone simulator */
+.phone { width: 18rem; max-width: 100%; margin: 1rem auto; background: #222; border-radius: 1.5rem; padding: 1rem; color: #fff; }
+.phone .screen { background: #d8e8d0; color: #111; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .95rem; white-space: pre-wrap; min-height: 11rem; padding: .6rem; border-radius: .4rem; overflow-wrap: anywhere; }
+.phone .keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; margin-top: .6rem; }
+.phone .keys button { background: #444; padding: .6rem 0; font-size: 1.1rem; }
+.phone .keys button.go { background: var(--green); }
+.phone input { max-width: 100%; margin-top: .6rem; }
+.phone label { color: #fff; font-weight: 400; font-size: .85rem; }
+.skip { position: absolute; left: -9999px; } .skip:focus { left: .5rem; top: .5rem; background: #fff; padding: .5rem; z-index: 5; }

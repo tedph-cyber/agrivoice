@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Report a price">
+  <h1>Report a market price</h1>
+  <p>For village price agents. Your report is checked by an admin before it shows.</p>
+  <form id="f" novalidate>
+    <label for="code">Agent code</label><input id="code" autocomplete="off" autocapitalize="characters" maxlength="16" required />
+    <label for="market">Market</label><select id="market" required></select>
+    <label for="crop">Crop</label><select id="crop" required></select>
+    <label for="unit">Unit (for example bag, basket, kg)</label><input id="unit" maxlength="20" required value="bag" />
+    <label for="price">Price in naira</label><input id="price" inputmode="numeric" required />
+    <p><button type="submit">Send for approval</button></p>
+  </form>
+  <p id="out" class="msg hidden" role="status"></p>
+</Base>
+<script>import '../../scripts/report.ts';</script>

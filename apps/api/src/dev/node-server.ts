@@ -16,14 +16,14 @@ const TYPES: Record<string, string> = {
   '.svg': 'image/svg+xml', '.mp3': 'audio/mpeg', '.m4a': 'audio/mp4', '.png': 'image/png', '.ico': 'image/x-icon', '.txt': 'text/plain; charset=utf-8',
 };
 
-export async function startServer(port = Number(process.env.PORT ?? 8787), opts: { db?: string; vars?: Record<string, string> } = {}) {
+export async function startServer(port = Number(process.env.PORT ?? 8787), opts: { db?: string; vars?: Record<string, string>; fetch?: typeof fetch; quiet?: boolean } = {}) {
   const shim = new D1Shim(opts.db ?? dbPath());
   const db = asD1(shim);
   await migrate(db);
   await seedBase(db);
   const vars = { ENABLED_LANGUAGES: 'en', ...loadDevVars(), ...opts.vars };
   const env = { DB: db, ...vars } as unknown as Env;
-  const app = createApp();
+  const app = createApp(opts.fetch ? { fetch: opts.fetch } : {});
   const server = serve({
     port,
     fetch: async (req) => {
@@ -32,7 +32,7 @@ export async function startServer(port = Number(process.env.PORT ?? 8787), opts:
       return staticFile(url.pathname);
     },
   });
-  console.log(`AgriVoice running at http://localhost:${port}`);
+  if (!opts.quiet) console.log(`AgriVoice running at http://localhost:${port}`);
   return { server, shim, close: () => { server.close(); shim.close(); } };
 }
 

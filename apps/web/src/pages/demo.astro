@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Phone simulator">
+  <h1>Try it: USSD phone simulator</h1>
+  <p>This shows exactly what a farmer sees on a basic phone. Numbers here are fake. Nothing is sent to a real phone.</p>
+  <div class="phone" role="group" aria-label="Phone simulator">
+    <label for="sim-phone">Fake phone number</label>
+    <input id="sim-phone" value="+2348000000001" inputmode="tel" autocomplete="off" />
+    <div class="screen" id="sim-screen" aria-live="polite" tabindex="0">Press Dial to start.</div>
+    <label for="sim-input">Your reply</label>
+    <input id="sim-input" inputmode="numeric" autocomplete="off" maxlength="12" disabled />
+    <div class="keys" id="sim-keys">
+      {['1','2','3','4','5','6','7','8','9','*','0','#'].map((k) => <button type="button" data-key={k} aria-label={`Key ${k}`}>{k}</button>)}
+      <button type="button" id="sim-dial" class="go">Dial</button>
+      <button type="button" id="sim-send" class="go" disabled>Send</button>
+      <button type="button" id="sim-restart" class="secondary">Restart</button>
+    </div>
+  </div>
+  <p id="sim-error" class="msg error hidden" role="alert"></p>
+  <p class="muted">Tip: <code>0</code> goes back, <code>00</code> goes to the main menu.</p>
+</Base>
+<script>import '../scripts/demo.ts';</script>

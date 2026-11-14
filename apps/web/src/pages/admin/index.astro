@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Admin">
+  <h1>Admin</h1>
+  <section id="login" class="hidden">
+    <form id="loginform">
+      <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required />
+      <p><button type="submit">Sign in</button></p>
+    </form>
+  </section>
+  <p id="err" class="msg error hidden" role="alert"></p>
+  <section id="app" class="hidden">
+    <p class="row"><span id="banner" class="badge warn"></span> <button type="button" id="logout" class="secondary">Sign out</button></p>
+    <nav aria-label="Admin sections"><ul id="tabs"></ul></nav>
+    <div id="panel" aria-live="polite"></div>
+  </section>
+</Base>
+<script>import '../../scripts/admin.ts';</script>

@@ -6,7 +6,7 @@ Legend: P0 demo-critical, P1 should have, S stretch.
 
 ## P0
 
-- [ ] **T00 Scaffold and tooling.** Deps: none.
+- [x] **T00 Scaffold and tooling.** Deps: none.
   Create the npm-workspaces monorepo from `BUILD_SPEC.md` section 4: `apps/api` (Hono, Workers, D1), `apps/web` (Astro, static output), `packages/core`. Add TypeScript strict, ESLint, Prettier, Vitest, Playwright, `wrangler.toml` with a D1 binding named `DB` and static assets from `apps/web/dist`, `.dev.vars.example`, and every command in the CLAUDE.md table (`setup:local` generates random local secrets).
   Verify: `npm run setup:local && npm run check` passes; `npm run dev` serves a placeholder home page and `GET /api/health` returns `{ok:true}`.
 
@@ -38,31 +38,31 @@ Legend: P0 demo-critical, P1 should have, S stretch.
   Login, logout, session cookie, CSRF header check, login rate limit. CRUD endpoints for briefs, qa, alert-advice, alert-rules, markets, crops, reporters (code shown once, hash stored); price moderation; questions queue; deletion requests; audit log.
   Verify: API tests for auth required on every admin route, wrong password, expired session, CSRF header missing, audit rows written, reporter code works once created.
 
-- [ ] **T08 Web foundation.** Deps: T00, T05.
+- [x] **T08 Web foundation.** Deps: T00, T05.
   Layout, navigation, language switch, styles (system fonts, mobile first, AA contrast), "Demo data" badge component, attribution footer, API client with timeout and friendly offline message.
   Verify: pages build; Lighthouse-style checks or a script confirm page weight under 100 KB excluding audio.
 
-- [ ] **T09 Simulator page `/demo`.** Deps: T06, T08.
+- [x] **T09 Simulator page `/demo`.** Deps: T06, T08.
   Phone-shaped UI that talks to `/api/ussd/sim`, shows exactly what USSD would show, accepts input, supports restart, uses fake numbers.
   Verify: Playwright test for E2E flow 1.
 
-- [ ] **T10 Farm brief page `/brief`.** Deps: T05, T08.
+- [x] **T10 Farm brief page `/brief`.** Deps: T05, T08.
   State, LGA and crop selectors; forecast table; alerts; approved brief with audio player when present; recent prices; badges.
   Verify: Playwright test loads a seeded brief and alert.
 
-- [ ] **T11 Price pages.** Deps: T05, T07, T08.
+- [x] **T11 Price pages.** Deps: T05, T07, T08.
   `/prices` board and `/prices/report` form.
   Verify: Playwright test for E2E flow 2 (report, admin approval via API, visible).
 
-- [ ] **T12 Ask page `/ask`.** Deps: T05, T08.
+- [x] **T12 Ask page `/ask`.** Deps: T05, T08.
   Search with matches; no-match form with consent checkbox.
   Verify: Playwright test for E2E flow 3 up to the question being stored.
 
-- [ ] **T13 Admin interface (minimum).** Deps: T07, T08.
+- [x] **T13 Admin interface (minimum).** Deps: T07, T08.
   Login page; dashboard; price moderation; briefs and Q&A (create, edit, approve with reviewer name); questions queue; reporter creation.
   Verify: Playwright tests for E2E flows 2 to 4.
 
-- [ ] **T14 Demo seed.** Deps: T01, T05.
+- [x] **T14 Demo seed.** Deps: T01, T05.
   `npm run db:seed:demo` loads flagged placeholder content from `content-templates/` for the default pilot state and crops, including markets, a few price reports (approved), briefs, Q&A, alert advice, and one reporter code printed to the console. Forecast fixture for demo mode so the demo works offline.
   Verify: after `db:migrate`, `db:seed`, `db:seed:demo`, every public page and every USSD screen shows data, all labelled demo.
 

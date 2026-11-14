@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Farm brief">
+  <h1>Farm brief</h1>
+  <form id="pick" class="row" aria-label="Choose place and crop">
+    <div><label for="state">State</label><select id="state" required></select></div>
+    <div><label for="lga">LGA</label><select id="lga"></select></div>
+    <div><label for="crop">Crop</label><select id="crop" required></select></div>
+  </form>
+  <p id="err" class="msg error hidden" role="alert"></p>
+  <div id="out" aria-live="polite"><p class="muted">Choose your state, LGA and crop.</p></div>
+</Base>
+<script>import '../scripts/brief.ts';</script>

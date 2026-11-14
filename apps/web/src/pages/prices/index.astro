@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Market prices">
+  <h1>Market prices</h1>
+  <p class="muted">Reported by village agents and approved by an admin before they show here.</p>
+  <form id="pick" class="row" aria-label="Filter prices">
+    <div><label for="crop">Crop</label><select id="crop"></select></div>
+    <div><label for="state">State</label><select id="state"></select></div>
+  </form>
+  <p id="err" class="msg error hidden" role="alert"></p>
+  <div id="out" aria-live="polite"></div>
+  <p><a href="/prices/report/">Are you a price agent? Send a price.</a></p>
+</Base>
+<script>import '../../scripts/prices.ts';</script>
