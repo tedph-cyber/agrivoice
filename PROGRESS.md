@@ -26,3 +26,4 @@
 - 2026-11-14 | T23 | Africa's Talking SMS notifier behind the notifier interface, flagged off | notify.test.ts (mocked fetch)
 - 2026-11-14 | T24 | Service worker for pages, assets and public GET endpoints with saved-data banner; admin/USSD never cached | e2e stretch.spec.ts offline test
 - 2026-11-14 | T25 | Read aloud button via browser speech synthesis, hidden without a matching voice | e2e stretch.spec.ts
+- 2026-11-14 | T26 | HANDOVER.md; final check and e2e pass; tag v0.1 | npm run check, npm run e2e, fresh clone

@@ -45,3 +45,7 @@ Rule: no advice goes live without a reviewer name and approval date. The agent n
 ## 5. Defaults the agent will use if you provide nothing
 
 Pilot state Ogun; crops maize, cassava, tomato; English only; placeholder markets, prices, briefs and answers flagged as demo; placeholder alert thresholds flagged `needs_review`; text-only briefs (no audio player); simulator only for USSD; local-only secrets.
+
+## Status after the first build (2026-11-14)
+
+Nothing in section 1 was filled in, so the defaults were used (Ogun, maize/cassava/tomato, English only, team name and contacts as `[bracketed]` placeholders). Everything in sections 2 to 4 is still waiting on you; see `HANDOVER.md` for the short list.

@@ -8,4 +8,5 @@ const run = (cmd: string, args: string[]) =>
 
 if (!existsSync(join(root, '.dev.vars'))) await run('npm', ['run', 'setup:local']);
 await run('npm', ['run', 'build', '-w', 'apps/web']);
-await import('../apps/api/src/dev/node-server');
+const { startServer } = await import('../apps/api/src/dev/node-server');
+await startServer();

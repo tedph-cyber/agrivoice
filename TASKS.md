@@ -99,4 +99,4 @@ Legend: P0 demo-critical, P1 should have, S stretch.
 
 ## Close-out
 
-- [ ] **T26 Handover.** Write `HANDOVER.md` as described in `CLAUDE.md`. Ensure `npm run check` and `npm run e2e` pass. Tag `v0.1`.
+- [x] **T26 Handover.** Write `HANDOVER.md` as described in `CLAUDE.md`. Ensure `npm run check` and `npm run e2e` pass. Tag `v0.1`.
