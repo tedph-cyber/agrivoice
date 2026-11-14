@@ -159,10 +159,45 @@ async function deletions() {
     (row) => (row.status === 'open' ? [btn('Mark done', async () => { await A(`/deletion-requests/${row.id}/done`, 'POST'); await deletions(); }, '')] : [])));
 }
 
+const IMPORT_TYPES = ['crops', 'locations', 'markets', 'briefs', 'qa', 'alert-rules', 'alert-advice'];
+async function importExport() {
+  clear(panel);
+  panel.append(h('h2', {}, 'Import and export (CSV)'), note, h('p', { class: 'muted' }, 'Use the templates in the content-templates folder. Rows from templates keep their placeholder flag. All-or-nothing applies no rows if any row is invalid.'));
+  const type = h('select', { id: 'imptype' }, ...IMPORT_TYPES.map((t) => h('option', { value: t }, t)));
+  const mode = h('select', { id: 'impmode' }, h('option', { value: 'all-or-nothing' }, 'All or nothing'), h('option', { value: 'skip-invalid' }, 'Skip invalid rows'));
+  const file = h('input', { id: 'impfile', type: 'file', accept: '.csv,text/csv' });
+  const result = h('div', { 'aria-live': 'polite' });
+  const form = h('form', { class: 'card' }, h('label', { for: 'imptype' }, 'Type'), type, h('label', { for: 'impmode' }, 'Mode'), mode, h('label', { for: 'impfile' }, 'CSV file'), file, h('p', {}, h('button', { type: 'submit' }, 'Import')));
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = file.files?.[0];
+    if (!f) return show(new ApiFail(0, 'x', 'Choose a CSV file first.'));
+    void f.text().then(async (text) => {
+      const res = await fetch(`/api/admin/import/${type.value}?mode=${mode.value}`, { method: 'POST', headers: { 'content-type': 'text/csv', 'x-requested-with': 'agrivoice-web' }, body: text, credentials: 'same-origin' });
+      const data = (await res.json()) as { imported?: number; skipped?: number; applied?: boolean; errors?: { row: number; message: string }[]; error?: { message: string } };
+      clear(result);
+      result.append(h('p', { class: res.ok ? 'msg ok' : 'msg error' }, res.ok ? `Imported ${data.imported} row(s), skipped ${data.skipped}.` : (data.error?.message ?? 'Import failed.')));
+      if (data.errors?.length) result.append(table([['row', 'Row'], ['message', 'Problem']], data.errors));
+    }).catch(show);
+  });
+  const dl = h('ul', {}, ...IMPORT_TYPES.map((t) => h('li', {}, h('a', { href: `/api/admin/export/${t}`, download: `agrivoice-${t}.csv` }, `Export ${t}`))));
+  panel.append(form, result, h('h3', {}, 'Export'), dl);
+}
+
+async function stats() {
+  clear(panel);
+  const d = await A<Record<string, unknown> & { sessionsByDayAndChannel: Row[]; registrationsByDay: Row[]; menuUse: Row[]; placeholders: Record<string, number> }>('/stats');
+  panel.append(h('h2', {}, 'Stats'),
+    h('ul', {}, h('li', {}, `Registered farmers: ${s(d.registeredFarmers)}`), h('li', {}, `Prices reported by agents: ${s(d.pricesReported)} (approved: ${s(d.pricesApproved)})`), h('li', {}, `Questions received: ${s(d.questionsReceived)} (answered: ${s(d.questionsAnswered)})`), h('li', {}, `Placeholder items remaining: ${d.placeholders.total}`)),
+    h('h3', {}, 'Sessions by day and channel (last 30 days)'), d.sessionsByDayAndChannel.length ? table([['day', 'Day'], ['channel', 'Channel'], ['n', 'Sessions']], d.sessionsByDayAndChannel) : h('p', {}, 'No sessions yet.'),
+    h('h3', {}, 'Registrations by day'), d.registrationsByDay.length ? table([['day', 'Day'], ['n', 'Registrations']], d.registrationsByDay) : h('p', {}, 'No registrations yet.'),
+    h('h3', {}, 'Menu use'), d.menuUse.length ? table([['kind', 'Menu'], ['n', 'Count']], d.menuUse) : h('p', {}, 'No menu use yet.'));
+}
+
 const TABS: [string, () => Promise<void>][] = [
   ['Dashboard', dashboard], ['Prices', prices], ['Briefs', () => crudPanel(RESOURCES[0]!)], ['Q&A', () => crudPanel(RESOURCES[1]!)],
   ['Alert advice', () => crudPanel(RESOURCES[2]!)], ['Alert rules', () => crudPanel(RESOURCES[3]!)], ['Markets', () => crudPanel(RESOURCES[4]!)],
-  ['Crops', () => crudPanel(RESOURCES[5]!)], ['Agents', reporters], ['Questions', questions], ['Deletions', deletions],
+  ['Crops', () => crudPanel(RESOURCES[5]!)], ['Agents', reporters], ['Questions', questions], ['Deletions', deletions], ['Import/export', importExport], ['Stats', stats],
 ];
 export const extraTabs: [string, () => Promise<void>][] = [];
 

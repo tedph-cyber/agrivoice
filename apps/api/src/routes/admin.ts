@@ -180,5 +180,34 @@ adminRoutes.get('/dashboard', async (c) => {
   });
 });
 
+adminRoutes.get('/stats', async (c) => {
+  const db = c.env.DB;
+  const n = async (sql: string) => (await db.prepare(sql).first<{ n: number }>())?.n ?? 0;
+  const since = new Date(c.get('deps').now().getTime() - 30 * 86400_000).toISOString();
+  const sessions = (
+    await db
+      .prepare("SELECT substr(at, 1, 10) AS day, channel, COUNT(*) AS n FROM events WHERE kind = 'session' AND at >= ? GROUP BY day, channel ORDER BY day")
+      .bind(since)
+      .all<{ day: string; channel: string; n: number }>()
+  ).results;
+  const registrations = (
+    await db.prepare('SELECT substr(created_at, 1, 10) AS day, COUNT(*) AS n FROM farmers WHERE created_at >= ? GROUP BY day ORDER BY day').bind(since).all<{ day: string; n: number }>()
+  ).results;
+  const menuUse = (
+    await db.prepare("SELECT kind, COUNT(*) AS n FROM events WHERE kind <> 'session' GROUP BY kind ORDER BY n DESC").all<{ kind: string; n: number }>()
+  ).results;
+  return c.json({
+    registeredFarmers: await n('SELECT COUNT(*) AS n FROM farmers'),
+    registrationsByDay: registrations,
+    sessionsByDayAndChannel: sessions,
+    menuUse,
+    pricesReported: await n('SELECT COUNT(*) AS n FROM price_reports WHERE reporter_id IS NOT NULL'),
+    pricesApproved: await n("SELECT COUNT(*) AS n FROM price_reports WHERE status = 'approved' AND reporter_id IS NOT NULL"),
+    questionsReceived: await n('SELECT COUNT(*) AS n FROM questions'),
+    questionsAnswered: await n("SELECT COUNT(*) AS n FROM questions WHERE status = 'answered'"),
+    placeholders: await placeholderCounts(db),
+  });
+});
+
 adminRoutes.route('/', csvRoutes);
 adminRoutes.route('/', crudRoutes(RESOURCES));

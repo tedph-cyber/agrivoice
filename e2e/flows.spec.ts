@@ -146,3 +146,35 @@ test('brief page shows forecast, alert, brief, prices with demo badges', async (
   await expect(page.locator('#out .badge', { hasText: 'Demo data' }).first()).toBeVisible();
   await expect(page.getByText('Weather data by Open-Meteo.com').first()).toBeVisible();
 });
+
+test('P1: web deletion request is handled in the admin', async ({ page, browser }) => {
+  await page.goto('/privacy/');
+  await expect(page.getByRole('heading', { name: 'Privacy notice' })).toBeVisible();
+  await page.locator('#note').fill('Please delete my profile e2e-delete-note');
+  await page.getByRole('button', { name: 'Send deletion request' }).click();
+  await expect(page.locator('#out')).toContainText('Request received');
+  const admin = await browser.newPage();
+  await adminUiLogin(admin);
+  await admin.getByRole('button', { name: 'Deletions' }).click();
+  const row = admin.locator('tr', { hasText: 'e2e-delete-note' });
+  await expect(row).toContainText('open');
+  await row.getByRole('button', { name: 'Mark done' }).click();
+  await expect(admin.locator('tr', { hasText: 'e2e-delete-note' })).toContainText('done');
+  await admin.close();
+});
+
+test('P1: admin CSV import with row errors, then stats page', async ({ browser }) => {
+  const admin = await browser.newPage();
+  await adminUiLogin(admin);
+  await admin.getByRole('button', { name: 'Import/export' }).click();
+  await admin.locator('#imptype').selectOption('markets');
+  await admin.locator('#impmode').selectOption('skip-invalid');
+  await admin.locator('#impfile').setInputFiles({ name: 'm.csv', mimeType: 'text/csv', buffer: Buffer.from('name,state,lga,lat,lon,is_placeholder\nE2E Market,Ogun,,,,0\n,Ogun,,,,0\n') });
+  await admin.getByRole('button', { name: 'Import', exact: true }).click();
+  await expect(admin.locator('.msg.ok')).toContainText('Imported 1 row(s), skipped 1');
+  await expect(admin.locator('td', { hasText: 'name is required' })).toBeVisible();
+  await admin.getByRole('button', { name: 'Stats' }).click();
+  await expect(admin.getByRole('heading', { name: 'Stats' })).toBeVisible();
+  await expect(admin.getByText('Registered farmers:')).toBeVisible();
+  await admin.close();
+});

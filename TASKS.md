@@ -72,16 +72,16 @@ Legend: P0 demo-critical, P1 should have, S stretch.
 
 ## P1
 
-- [ ] **T16 CSV import and export.** Deps: T07.
+- [x] **T16 CSV import and export.** Deps: T07.
   Section 10: validation, row-level error report, all-or-nothing and skip-invalid modes, export, admin UI page, tests using the files in `content-templates/`.
 
-- [ ] **T17 Privacy flows.** Deps: T06, T13.
+- [x] **T17 Privacy flows.** Deps: T06, T13.
   `/privacy` page content (plain language, with bracketed placeholders for contact details), web deletion request flow, admin handling, `npm run purge` implementing retention rules, tests.
 
 - [ ] **T18 Security hardening pass.** Deps: T15.
   Review against section 12. Add tests for: CSP and headers present, rate limits on all public POSTs, SQL injection attempts return validation errors, admin XSS attempt stored and rendered safely, USSD token compare, no secrets or phone numbers in logs. Write `SECURITY_NOTES.md` listing controls and known gaps.
 
-- [ ] **T19 Stats.** Deps: T13.
+- [x] **T19 Stats.** Deps: T13.
   `GET /api/admin/stats` and an admin page: registrations, sessions by channel and day, prices reported and approved, questions answered, placeholder counter. Public aggregate endpoint already exists.
 
 - [ ] **T20 Documentation.** Deps: T15.

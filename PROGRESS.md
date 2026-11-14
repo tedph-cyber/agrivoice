@@ -16,3 +16,6 @@
 - 2026-11-14 | T13 | Admin UI (dashboard, prices, briefs, Q&A, advice, rules, markets, crops, agents, questions, deletions) | e2e flows 2-4
 - 2026-11-14 | T14 | Demo seed with flagged content and one reporter code | seed.test.ts, e2e
 - 2026-11-14 | T15 | Five e2e flows plus page checks; verified from a clean clone (npm ci, setup:local, check, e2e) | 98 unit/API tests, 15 e2e tests pass
+- 2026-11-14 | T16 | CSV import/export for 7 types, row-level errors, all-or-nothing and skip-invalid, formula-safe export, admin UI | csv.test.ts, e2e import test
+- 2026-11-14 | T17 | /privacy notice, web deletion request, admin handling, npm run purge retention | seed.test.ts purge, e2e deletion test
+- 2026-11-14 | T19 | GET /api/admin/stats and admin Stats page | admin.test.ts stats, e2e

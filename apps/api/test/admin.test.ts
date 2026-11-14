@@ -158,3 +158,18 @@ describe('admin API', () => {
     expect((await h.admin('DELETE', '/alert-rules/1')).status).toBe(409);
   });
 });
+
+describe('admin stats', () => {
+  it('reports counts by day and channel without personal data', async () => {
+    const h = await harness({ demo: true });
+    await h.json('POST', '/api/ussd/sim', { sessionId: 'sim-stat1', phone: '+2340000000009', text: '' });
+    await h.json('POST', '/api/prices/report', { reporterCode: h.reporterCode, marketId: 1, cropId: 1, unit: 'bag', priceNgn: 10 });
+    const s = (await h.admin('GET', '/stats')).body;
+    expect(s.sessionsByDayAndChannel).toEqual([{ day: '2026-11-14', channel: 'sim', n: 1 }]);
+    expect(s.pricesReported).toBe(1);
+    expect(s.pricesApproved).toBe(0);
+    expect(s.placeholders.total).toBeGreaterThan(0);
+    expect(JSON.stringify(s)).not.toContain('2340000000009');
+    expect((await h.json('GET', '/api/admin/stats')).status).toBe(401);
+  });
+});
