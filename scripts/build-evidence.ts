@@ -1,7 +1,7 @@
 // Builds docs/AgriVoice-supporting-evidence.pdf from real screenshots of the running app (demo data, offline weather fixture).
 // Run: npm run build:evidence   (needs `npm run build -w apps/web` first and Playwright's Chromium)
 import { spawn } from 'node:child_process';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { chromium, type Page } from '@playwright/test';
 
