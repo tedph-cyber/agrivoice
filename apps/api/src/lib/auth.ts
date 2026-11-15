@@ -25,7 +25,9 @@ export async function hashPassword(password: string, iterations = PBKDF2_ITERATI
 
 export async function verifyPassword(password: string, stored: string | undefined): Promise<boolean> {
   if (!stored) return false;
-  const [alg, it, salt, hash] = stored.split('$');
+  // Tolerate stray whitespace, NULs or a BOM from shells that re-encode piped text.
+  const clean = stored.split('\u0000').join('').replace('\ufeff', '').trim();
+  const [alg, it, salt, hash] = clean.split('$');
   const iterations = Number(it);
   if (alg !== 'pbkdf2-sha256' || !Number.isInteger(iterations) || iterations < 1 || !salt || !hash) return false;
   const got = b64(await derive(password, unb64(salt), iterations));

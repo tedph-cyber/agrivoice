@@ -87,3 +87,12 @@ describe('security controls', () => {
     }
   });
 });
+
+describe('admin hash tolerance', () => {
+  it('accepts a stored hash with a trailing newline, BOM or NUL bytes', async () => {
+    const { hashPassword, verifyPassword } = await import('../src/lib/auth');
+    const h = await hashPassword('correct horse battery', 1000);
+    for (const v of [h, h + '\n', h + '\r\n', '﻿' + h, h.split('').join('\u0000')]) expect(await verifyPassword('correct horse battery', v)).toBe(true);
+    expect(await verifyPassword('wrong password here', h + '\n')).toBe(false);
+  });
+});
