@@ -12,7 +12,7 @@ not_found_handling = "404-page"
 binding = "DB"
 database_name = "agrivoice"
 # Paste the id printed by `npx wrangler d1 create agrivoice` (see DEPLOY.md). Never commit secrets here.
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "4c5e884c-33e9-45a9-baaa-8bdeaa8038ac"
 migrations_dir = "migrations"
 
 [vars]
