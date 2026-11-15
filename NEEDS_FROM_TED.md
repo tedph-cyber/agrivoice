@@ -9,7 +9,7 @@ PILOT_STATE:        (default: Ogun)
 PILOT_LGAS:         (default: all LGAs of the pilot state, geocoded)
 CROPS:              (default: maize, cassava, tomato)
 EXTRA_LANGUAGE:     (default: none; use a code: pcm, ha, yo, ig)
-TEAM_NAME:          (default: [Team name])
+TEAM_NAME:          AgriVoice (Israel Olanrewaju, Theophilus Oyekola)
 CONTACT_EMAIL:      (default: [contact email])
 CONTACT_PHONE:      (default: [contact phone])
 ```
