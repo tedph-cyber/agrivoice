@@ -9,9 +9,9 @@ PILOT_STATE:        (default: Ogun)
 PILOT_LGAS:         (default: all LGAs of the pilot state, geocoded)
 CROPS:              (default: maize, cassava, tomato)
 EXTRA_LANGUAGE:     (default: none; use a code: pcm, ha, yo, ig)
-TEAM_NAME:          AgriVoice (Israel Olanrewaju, Theophilus Oyekola)
-CONTACT_EMAIL:      (default: [contact email])
-CONTACT_PHONE:      (default: [contact phone])
+TEAM_NAME:          AgriNova (Israel Olanrewaju, Theophilus Oyekola)
+CONTACT_EMAIL:      oluwaolapelumi@gmail.com
+CONTACT_PHONE:      08088585887
 ```
 
 ## 2. Content (use the CSV templates in `content-templates/`)

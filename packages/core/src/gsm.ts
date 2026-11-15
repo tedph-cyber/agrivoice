@@ -12,7 +12,7 @@ export function isGsm7(text: string): boolean {
 /** Make text GSM 7-bit safe: strip diacritics where possible, replace anything else with '?'. */
 export function toGsm7(text: string): string {
   let out = '';
-  for (const ch of text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/₦/g, 'N')) {
+  for (const ch of text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/₦/g, 'N').replace(/[[{]/g, '(').replace(/[\]}]/g, ')')) {
     if (SET.has(ch)) {
       out += ch;
       continue;
