@@ -36,7 +36,6 @@
       "WebFetch(domain:developers.africastalking.com)"
     ],
     "deny": [
-      "Bash(git push:*)",
       "Bash(rm -rf:*)",
       "Bash(sudo:*)",
       "Bash(npx wrangler deploy:*)",
